@@ -99,8 +99,6 @@ adb shell monkey -p com.mateengine.pico -c android.intent.category.LAUNCHER 1   
 adb shell dumpsys package com.mateengine.pico | grep lastUpdateTime              # 验证已更新
 ```
 
-## 六、克隆 / 推送说明（网络受限时）
-
 ## 五、移植要点与踩过的坑
 
 - **追踪原点**：`PXR_ProjectSetting.stageMode = 1`（地板参考系），否则人物与手柄整体悬空
