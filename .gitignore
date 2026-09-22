@@ -1,0 +1,68 @@
+# ============================================================
+#  Mate Engine PICO 移植版 —— 只上传「代码与配置」
+#
+#  采用白名单方式：默认忽略一切，只放开自己写的代码 / 配置目录。
+#  原因：
+#   1) 原始 Mate Engine 的美术资源（动画 / 模型 / 字体 / 着色器）约 1.9 GB，
+#      超过 GitHub 合理的仓库体积；
+#   2) 其中包含原项目的付费 DLC 内容与第三方付费资源，不宜公开分发。
+#  需要完整资源时，从本地完整工程（或原版 Mate Engine 工程）拷贝对应目录即可，
+#  具体缺哪些目录见 README「本地恢复成可构建工程」一节。
+# ============================================================
+
+# 默认忽略一切
+/*
+
+# ---- 仓库自身的说明文件 ----
+!/.gitignore
+!/README.md
+!/docs/
+
+# ---- 代码与配置（白名单）----
+!/Assets.meta
+!/Assets/
+/Assets/*
+!/Assets/*.meta
+!/Assets/Editor/
+!/Assets/MATE ENGINE - Scripts/
+!/Assets/Plugins/
+!/Assets/Resources/
+!/Assets/XR/
+!/Assets/StreamingAssets/
+!/Assets/MATE ENGINE - Scenes/
+/Assets/MATE ENGINE - Scenes/*
+# 只保留 VR 场景（构建目标，会由 BuildPICOVR 重新生成）；
+# 桌面场景（Mate Engine Main / Update / _OriginalDesktop 等，各 7 MB）不属于代码，
+# 且 _OriginalDesktop 由构建脚本从原版工程自动拷贝，不入库。
+!/Assets/MATE ENGINE - Scenes/Mate Engine VR.unity
+!/Assets/MATE ENGINE - Scenes/Mate Engine VR.unity.meta
+!/Assets/MATE ENGINE - Scenes.meta
+
+!/ProjectSettings/
+
+!/Packages/
+/Packages/*
+!/Packages/manifest.json
+!/Packages/packages-lock.json
+
+# ---- 其它常规忽略（白名单下多数已隐含，保留以便阅读/将来切换回黑名单）----
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.sln
+*.user
+*.apk
+*.aab
+*.unitypackage
+sysinfo.txt
+Thumbs.db
+.DS_Store

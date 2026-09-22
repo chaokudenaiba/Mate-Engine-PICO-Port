@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  应用级清单（最高优先级）。自定义应用清单会"替换"Unity 自动生成的那份，所以必须自己
+  声明启动 Activity，否则打出来的包没有启动入口（头显列表里点不开）。
+
+  这里做两件事：
+  1) 声明 Unity 的启动 Activity（含 MAIN/LAUNCHER intent-filter）—— 与 Unity 默认模板一致；
+     同时用 tools:replace 解决 application@label 与 unityLibrary 清单的合并冲突。
+  2) 删掉 INTERNET 权限 —— Unity 默认会加，而库级清单里的 tools:node="remove" 不生效
+     （清单合并器只在优先级最高的清单里处理 tools: 标记），所以必须写在这里。
+
+  将来做 AI 聊天需要联网时：删掉 INTERNET 那条 tools:node="remove"，
+  并按新方案补回所需权限（如 RECORD_AUDIO、语音引擎的 <queries> 可见性）。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.mateengine.pico">
+
+    <!-- 纯本地应用：移除联网权限 -->
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+
+    <application android:label="@string/app_name"
+                 tools:replace="android:label">
+
+        <activity android:name="com.unity3d.player.UnityPlayerActivity"
+                  android:exported="true"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="landscape"
+                  android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+                  android:hardwareAccelerated="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+        </activity>
+
+    </application>
+
+</manifest>
