@@ -99,6 +99,8 @@ adb shell monkey -p com.mateengine.pico -c android.intent.category.LAUNCHER 1   
 adb shell dumpsys package com.mateengine.pico | grep lastUpdateTime              # 验证已更新
 ```
 
+## 六、克隆 / 推送说明（网络受限时）
+
 ## 五、移植要点与踩过的坑
 
 - **追踪原点**：`PXR_ProjectSetting.stageMode = 1`（地板参考系），否则人物与手柄整体悬空
@@ -110,3 +112,21 @@ adb shell dumpsys package com.mateengine.pico | grep lastUpdateTime             
 - **编辑器联网**：`ThryEditor`（Poiyomi 面板框架）的在线翻译 / 远程公告 / 短链解析会在网络被拦时把编辑器主线程卡死，已永久关闭（见 `HelperWeb.cs` 顶部补丁说明）
 - **Android 清单**：自定义应用级清单会替换 Unity 生成的清单，**必须自己声明启动 Activity**，否则装出来的包点不开；`INTERNET` 权限只能在应用级清单里用 `tools:node="remove"` 移除
 - **不要提交**：`Library/`、`Temp/`、`Logs/`、`UserSettings/`、构建产物 `*.apk`
+
+## 六、克隆 / 推送说明（网络受限时）
+
+本机（国内网络）到 GitHub 的 **22 端口被拦**（`ssh: connect to host github.com port 22: Connection refused`），
+HTTPS 也可能因证书吊销检查失败（`schannel ... 0x80092012`）。
+可用 **GitHub 官方的 SSH-over-443 通道**，仓库地址写成：
+
+```bash
+# 克隆
+git clone ssh://git@ssh.github.com:443/chaokudenaiba/Mate-Engine-PICO-Port.git
+
+# 已有仓库改远端
+git remote set-url origin ssh://git@ssh.github.com:443/chaokudenaiba/Mate-Engine-PICO-Port.git
+```
+
+（等价做法：在 `~/.ssh/config` 里写
+`Host github.com` → `HostName ssh.github.com` / `Port 443` / `User git`，
+之后就能继续用标准的 `git@github.com:...` 地址。）
